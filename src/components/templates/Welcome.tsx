@@ -6,7 +6,6 @@ import Container from '../atoms/Container';
 import getPlatformTarget from '../../utils/screen';
 import LoginButton from '../molecules/LoginButton';
 
-
 const Welcome = () => {
     return (
         <Container>

@@ -3,12 +3,41 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "start": "react-native start",
-    "web": "react-scripts start",
     "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "start": "npx react-native start",
+    
+    "_ios": "npx react-native run-ios",
+    "_android": "npx react-native run-android",
+    "_web": "react-scripts start",
+    
+    "env:dev": "node scripts/set-environment.js development",
+    "env:staging": "node scripts/set-environment.js staging",
+    "env:prod": "node scripts/set-environment.js production",
+    
+    "ios": "yarn env:dev && yarn _ios",
+    "ios:staging": "yarn env:staging && yarn _ios",
+    "ios:prod": "yarn env:prod && yarn _ios",
+    "_build:ios": "react-native bundle --platform ios ...",
+    "build:ios": "yarn env:dev && yarn _build:ios",
+    "build:ios:staging": "yarn env:staging && yarn _build:ios",
+    "build:ios:prod": "yarn env:prod && yarn _build:ios",
+    
+    "android": "yarn env:dev && yarn _android",
+    "android:staging": "yarn env:staging && yarn _android",
+    "android:prod": "yarn env:prod && yarn _android",
+    "_build:android": "react-native bundle --platform android ...",
+    "build:android": "yarn env:dev && yarn _build:android",
+    "build:android:staging": "yarn env:staging && yarn _build:android",
+    "build:android:prod": "yarn env:prod && yarn _build:android",
+
+    "web": "yarn env:dev && yarn _web",
+    "web:staging": "yarn env:staging && yarn _web",
+    "web:prod": "yarn env:prod && yarn _web",
+    "_build:web": "react-scripts bundle --platform web ...",
+    "build:web": "yarn env:dev && yarn _build:web",
+    "build:web:staging": "yarn env:staging && yarn _build:web",
+    "build:web:prod": "yarn env:prod && yarn _build:web"
   },
   "dependencies": {
     "react": "^17.0.1",
