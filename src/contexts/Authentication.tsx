@@ -1,6 +1,6 @@
 import React from "react";
 import AsyncStorage from "@react-native-community/async-storage";
-import Persistence from "helpers/Persistence";
+import Persistence from "helpers/persistance/Persistence";
 import { AUTHENTICATION } from 'config';
 
 type Props = {

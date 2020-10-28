@@ -1,11 +1,12 @@
 
 import Container from 'components/atoms/Container';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import jwtDecode from "jwt-decode";
 import { useAuthentication } from 'contexts/Authentication';
 import ProfileImage from 'components/molecules/ProfileImage';
 import Spacer from 'components/atoms/Spacer';
+import { getGitHubUserDetails } from 'services/github';
 
 interface IDToken {
     aud: string,
@@ -33,8 +34,24 @@ const styles = StyleSheet.create({
 
 const Profile = () => {
     const { tokens } = useAuthentication();
-    const [ user, serUser ] = useState<null | IGithubUser>(null)
+    const [ user, setUser ] = useState<null | IGithubUser>(null)
     const decoded = jwtDecode(tokens.idToken) as IDToken;
+
+    useEffect(() => {
+        const getUser = async () => {
+            const userDetails = await getGitHubUserDetails(decoded.nickname);
+
+            if (userDetails) {
+                setUser(userDetails.response.data)
+            }
+        };
+
+        getUser()
+
+        return () => {
+            
+        }
+    }, [decoded.nickname])
 
     return (
         <Container>
@@ -51,11 +68,13 @@ const Profile = () => {
                     {decoded.name}
                 </Text>
             </View>
+            <Spacer height={3} />
             <View style={styles.center}>
                 <Text style={{
-                    fontSize: 24
+                    fontSize: 24,
+                    color: "blue"
                 }}>
-                    {decoded.nickname}
+                    {user?.html_url}
                 </Text>
             </View>
         </Container>
