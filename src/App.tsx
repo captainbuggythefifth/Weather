@@ -5,10 +5,12 @@ import { SafeAreaView, Text, View } from 'react-native';
 
 const App = () => {
     return (
-        <SafeAreaView >
+        <SafeAreaView>
             <View>
                 <Text style={{
                     fontSize: 20,
+                    color: "black",
+                    fontWeight: "bold"
                 }}>
                     Hello, World!
                 </Text>
