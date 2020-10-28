@@ -1,22 +1,23 @@
 import React from 'react';
-import Button from '../atoms/Button';
-import Auth from './../../libs/auth-provider/instance';
+import getPlatformTarget from '../../utils/screen';
+import LoginButtonLarge from './LoginButtonLarge';
+import LoginButtonMobile from './LoginButtonMobile';
 
 export const loginButtonText = "LOG IN WITH GITHUB"
 
 const LoginButton = () => {
-    const handlePress = async () => {
+    
+    const isMobile = getPlatformTarget() === "mobile";
 
-        const result = await Auth.execute()
-
-        console.log("result: ", result);
-        
-        
-    }
     return (
-        <Button onPress={handlePress}>
-            {loginButtonText}
-        </Button>
+        <>
+            {isMobile && (
+                <LoginButtonMobile title={loginButtonText} />
+            )}
+            {!isMobile && (
+                <LoginButtonLarge title={loginButtonText} />
+            )}
+        </>
     )
 };
 

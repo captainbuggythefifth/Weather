@@ -6,15 +6,12 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "start": "npx react-native start",
-    
     "_ios": "npx react-native run-ios",
     "_android": "npx react-native run-android",
     "_web": "react-scripts start",
-    
     "env:dev": "node scripts/set-environment.js development",
     "env:staging": "node scripts/set-environment.js staging",
     "env:prod": "node scripts/set-environment.js production",
-    
     "ios": "yarn env:dev && yarn _ios",
     "ios:staging": "yarn env:staging && yarn _ios",
     "ios:prod": "yarn env:prod && yarn _ios",
@@ -22,7 +19,6 @@
     "build:ios": "yarn env:dev && yarn _build:ios",
     "build:ios:staging": "yarn env:staging && yarn _build:ios",
     "build:ios:prod": "yarn env:prod && yarn _build:ios",
-    
     "android": "yarn env:dev && yarn _android",
     "android:staging": "yarn env:staging && yarn _android",
     "android:prod": "yarn env:prod && yarn _android",
@@ -30,7 +26,6 @@
     "build:android": "yarn env:dev && yarn _build:android",
     "build:android:staging": "yarn env:staging && yarn _build:android",
     "build:android:prod": "yarn env:prod && yarn _build:android",
-
     "web": "yarn env:dev && yarn _web",
     "web:staging": "yarn env:staging && yarn _web",
     "web:prod": "yarn env:prod && yarn _web",
@@ -40,9 +35,12 @@
     "build:web:prod": "yarn env:prod && yarn _build:web"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^1.1.0",
+    "@types/react-native-auth0": "^2.5.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-native": "^0.63.3",
+    "react-native-auth0": "^2.6.0",
     "react-native-elements": "^3.0.0-alpha.1",
     "react-native-vector-icons": "^7.1.0",
     "react-native-web": "^0.14.5"
@@ -80,7 +78,7 @@
       "^@components(.*)$": "<rootDir>/src/components$1"
     },
     "testPathIgnorePatterns": [
-        "<rootDir>/src/__tests__/__mocks__/"
+      "<rootDir>/src/__tests__/__mocks__/"
     ]
   },
   "browserslist": {
