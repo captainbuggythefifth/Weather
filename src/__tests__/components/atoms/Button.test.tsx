@@ -8,7 +8,7 @@ describe('Button render', () => {
     
     const onPress = jest.fn();
     let props: IButtonProps = {
-        title,
+        children: title,
         onPress
     };
 
@@ -27,7 +27,7 @@ describe('Button interaction', () => {
     
     const onPress = jest.fn();
     let props: IButtonProps = {
-        title,
+        children: title,
         onPress
     };
 

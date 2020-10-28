@@ -4,6 +4,7 @@ import Button from '../atoms/Button';
 import { View } from 'react-native';
 import Container from '../atoms/Container';
 import getPlatformTarget from '../../utils/screen';
+import LoginButton from '../molecules/LoginButton';
 
 
 const Welcome = () => {
@@ -18,7 +19,7 @@ const Welcome = () => {
                     <HelloWorld />
                 </View>
                 <View>
-                    <Button>alalal</Button>
+                    <LoginButton />
                 </View>
             </View>
         </Container>

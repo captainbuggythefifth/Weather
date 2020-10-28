@@ -1,11 +1,12 @@
 import React, { ReactNode } from 'react';
-import { StyleSheet, Text, TouchableHighlight, TouchableOpacity } from 'react-native'
+import { GestureResponderEvent, StyleSheet, Text, TouchableHighlight, TouchableOpacity } from 'react-native'
 import { SCREEN_TARGET } from '../../constants';
 import getPlatformTarget from '../../utils/screen';
 
 
 export interface IButtonProps {
-    children: ReactNode | string | number
+    children: ReactNode | string | number,
+    onPress: (event: GestureResponderEvent) => void
 }
 
 const styles = StyleSheet.create({
@@ -27,10 +28,10 @@ const styles = StyleSheet.create({
     },
     text: {
         color: "white",
-        fontSize: 24,
-        fontWeight: "400",
+        fontSize: 16,
+        fontWeight: "600",
         textAlign: "center",
-        fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+        fontFamily: getPlatformTarget() === SCREEN_TARGET.LARGE ? "Roboto, Helvetica, Arial, sans-serif" : undefined,
     }
 })
 
@@ -41,9 +42,8 @@ const Button = (props: IButtonProps) => {
             <Text style={
                 styles.text
             }>
-            {props.children}    
+                {props.children}    
             </Text>
-            
         </TouchableOpacity>
     )
 };

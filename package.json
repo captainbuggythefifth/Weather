@@ -49,7 +49,10 @@
     ],
     "moduleNameMapper": {
       "^@components(.*)$": "<rootDir>/src/components$1"
-    }
+    },
+    "testPathIgnorePatterns": [
+        "<rootDir>/src/__tests__/__mocks__/"
+    ]
   },
   "browserslist": {
     "production": [
