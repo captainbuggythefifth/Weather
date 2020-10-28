@@ -1,10 +1,11 @@
 import React from 'react';
 import Authenticated from './Authenticated';
 import Unauthenticated from './Unauthenticated';
-
+import { useAuthentication } from 'contexts/Authentication';
 
 const Navigation = () => {
-    const isAuthenticated = true;
+    const { authenticated } = useAuthentication();
+    const isAuthenticated = authenticated;
     return (
         <>
             {isAuthenticated && (

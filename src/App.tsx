@@ -7,8 +7,9 @@ import { AUTH0_DOMAIN, AUTH0_DOMAIN_CLIENT_ID } from './env';
 import Unauthenticated from './navigations/Unauthenticated';
 import Navigation from 'navigations/Navigation';
 import { View } from 'react-native';
+import { AuthenticationProvider } from 'contexts/Authentication';
 
-declare const global: {HermesInternal: null | {}};
+declare const global: { HermesInternal: null | {} };
 
 const isMobile = getPlatformTarget() === "mobile";
 
@@ -17,19 +18,20 @@ const App = () => {
         <View style={{
             height: getPlatformTarget() === "large" ? "100vh" : "100%"
         }}>
-            {isMobile && (
-                <Navigation />
-            )}
-            {!isMobile && (
-                <Auth0Provider
-                    domain={AUTH0_DOMAIN}
-                    clientId={AUTH0_DOMAIN_CLIENT_ID}
-                    redirectUri={"http://localhost:3000"}
-                >
+            <AuthenticationProvider>
+                {isMobile && (
                     <Navigation />
-                </Auth0Provider>
-            )}
-
+                )}
+                {!isMobile && (
+                    <Auth0Provider
+                        domain={AUTH0_DOMAIN}
+                        clientId={AUTH0_DOMAIN_CLIENT_ID}
+                        redirectUri={"http://localhost:3000"}
+                    >
+                        <Navigation />
+                    </Auth0Provider>
+                )}
+            </AuthenticationProvider>
         </View>
     );
 };
