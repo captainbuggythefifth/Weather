@@ -1,21 +1,24 @@
 import React from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
-import Welcome from './components/templates/Welcome';
-import Button from './components/atoms/Button';
-
+// import 'react-native-gesture-handler';
 
 import { Auth0Provider } from '@auth0/auth0-react';
 import getPlatformTarget from './utils/screen';
 import { AUTH0_DOMAIN, AUTH0_DOMAIN_CLIENT_ID } from './env';
-// declare const global: {HermesInternal: null | {}};
+import Unauthenticated from './navigations/Unauthenticated';
+import Navigation from 'navigations/Navigation';
+import { View } from 'react-native';
+
+declare const global: {HermesInternal: null | {}};
 
 const isMobile = getPlatformTarget() === "mobile";
 
 const App = () => {
     return (
-        <>
+        <View style={{
+            height: getPlatformTarget() === "large" ? "100vh" : "100%"
+        }}>
             {isMobile && (
-                <Welcome />
+                <Navigation />
             )}
             {!isMobile && (
                 <Auth0Provider
@@ -23,11 +26,11 @@ const App = () => {
                     clientId={AUTH0_DOMAIN_CLIENT_ID}
                     redirectUri={"http://localhost:3000"}
                 >
-                    <Welcome />
+                    <Navigation />
                 </Auth0Provider>
             )}
 
-        </>
+        </View>
     );
 };
 

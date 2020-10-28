@@ -7,9 +7,10 @@ interface IContainerProps {
 }
 
 const Container = ({children}: IContainerProps) => {
+    const isMobile = getPlatformTarget() === "mobile"
     return (
         <SafeAreaView style={{
-            padding: 16,
+            padding: isMobile ? 24 : 40,
             flex: 1,
             height: getPlatformTarget() === "large" ? "100vh" : "100%"
         }}>
