@@ -1,12 +1,16 @@
 
 import Container from 'components/atoms/Container';
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import jwtDecode from "jwt-decode";
 import { useAuthentication } from 'contexts/Authentication';
 import ProfileImage from 'components/molecules/ProfileImage';
 import Spacer from 'components/atoms/Spacer';
-import { getGitHubUserDetails } from 'services/github';
+import { fetcherGitHubUserDetails } from 'services/github';
+import useSWR from 'swr'
+import Button from 'components/atoms/Button';
+import Geolocation from '@react-native-community/geolocation';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface IDToken {
     aud: string,
@@ -19,64 +23,101 @@ interface IDToken {
     sub: string
 }
 
-interface IGithubUser {
-    html_url: string
+export interface ICoordination {
+    latitude: number;
+    longitude: number;
+    altitude: number | null;
+    accuracy: number;
+    altitudeAccuracy: number | null;
+    heading: number | null;
+    speed: number | null;
 }
-
-const githubUrl = "https://api.github.com/users/"
 
 const styles = StyleSheet.create({
     center: {
         alignContent: "center",
         alignItems: "center"
+    },
+    userName: {
+        fontSize: 32,
+        fontWeight: "500"
+    },
+    userUrl: {
+        textAlign: "center",
+        fontSize: 24,
+        color: "blue"
+    },
+    coordination: {
+        textAlign: "center",
+        fontSize: 22,
+        color: "blue"
     }
-})
+});
 
 const Profile = () => {
-    const { tokens } = useAuthentication();
-    const [ user, setUser ] = useState<null | IGithubUser>(null)
+    const { tokens, logOut } = useAuthentication();
     const decoded = jwtDecode(tokens.idToken) as IDToken;
+    const [coordination, setCoordination] = useState<ICoordination | null>(null)
+    const { data } = useSWR(`${decoded.nickname}`, fetcherGitHubUserDetails);
+    const handleCheckLocation = () => {
+        Geolocation.getCurrentPosition(info => {
+            setCoordination(info.coords)
+        });
+    }
 
-    useEffect(() => {
-        const getUser = async () => {
-            const userDetails = await getGitHubUserDetails(decoded.nickname);
-
-            if (userDetails) {
-                setUser(userDetails.response.data)
-            }
-        };
-
-        getUser()
-
-        return () => {
-            
-        }
-    }, [decoded.nickname])
+    const { logout
+    } = useAuth0()
 
     return (
         <Container>
-            <Spacer height={5} />
-            <View style={styles.center}>
-                <ProfileImage link={decoded.picture} />
-            </View>
-            <Spacer height={5} />
-            <View style={styles.center}>
-                <Text style={{
-                    fontSize: 32,
-                    fontWeight: "500"
+            <ScrollView>
+                <Spacer height={5} />
+                <View style={styles.center}>
+                    <ProfileImage link={decoded.picture} />
+                </View>
+                <Spacer height={5} />
+                <View style={styles.center}>
+                    <Text style={styles.userName}>
+                        {decoded.name}
+                    </Text>
+                </View>
+                <Spacer height={3} />
+                <View style={styles.center}>
+                    <Text style={styles.userUrl}>
+                        {data?.html_url}
+                    </Text>
+                </View>
+                <Spacer height={9} />
+                <View>
+                    <Text style={styles.coordination}>
+                        {coordination?.latitude ? `Latitude: ${coordination?.latitude}` : ""}
+                    </Text>
+                    <Spacer height={1} />
+                    <Text style={styles.coordination}>
+                        {coordination?.longitude ? `Longitude: ${coordination?.longitude}` : ""}
+                    </Text>
+                </View>
+                <Spacer height={9} />
+                <View style={{
+                    padding: 20
                 }}>
-                    {decoded.name}
-                </Text>
-            </View>
-            <Spacer height={3} />
-            <View style={styles.center}>
-                <Text style={{
-                    fontSize: 24,
-                    color: "blue"
+                    <Button onPress={handleCheckLocation}>
+                        Check My Location
+                </Button>
+                </View>
+                <View style={{
+                    padding: 20
                 }}>
-                    {user?.html_url}
-                </Text>
-            </View>
+                    <Button onPress={
+                        async () => {
+                            await logOut();
+                            logout();
+                        }
+                    }>
+                        Log Out
+                </Button>
+                </View>
+            </ScrollView>
         </Container>
     )
 };

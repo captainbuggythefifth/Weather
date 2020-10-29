@@ -1,12 +1,12 @@
 import React, { ReactNode } from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import getPlatformTarget from '../../utils/screen';
 
 interface IContainerProps {
     children: ReactNode
 }
 
-const Container = ({children}: IContainerProps) => {
+const Container = ({ children }: IContainerProps) => {
     const isMobile = getPlatformTarget() === "mobile"
     return (
         <SafeAreaView style={{

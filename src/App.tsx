@@ -9,9 +9,11 @@ import Navigation from 'navigations/Navigation';
 import { View } from 'react-native';
 import { AuthenticationProvider } from 'contexts/Authentication';
 
+
 declare const global: { HermesInternal: null | {} };
 
 const isMobile = getPlatformTarget() === "mobile";
+
 
 const App = () => {
     return (

@@ -32,14 +32,14 @@ export const AuthenticationContext = React.createContext<IAuthenticationContextP
 });
 
 export const AuthenticationProvider = ({ children }: Props) => {
-
-    const persistence = new Persistence(AsyncStorage);
-
     const [authenticated, setAuthenticated] = React.useState<boolean>(AUTHENTICATION.DEFAULT);
     const [tokens, setTokens] = React.useState<AUTHENTICATION.IAuthenticationTokens>(AUTHENTICATION.TOKENS)
 
+    const persistence = new Persistence(AsyncStorage);
+    
+
     const setPersistAuthentication = async (tokens: AUTHENTICATION.IAuthenticationTokens) => {
-        if(!tokens.accessToken) {
+        if(!tokens.idToken) {
             return
         };
 
@@ -50,16 +50,17 @@ export const AuthenticationProvider = ({ children }: Props) => {
     }
 
     const logOut = async () => {
-        await persistence.remove(AUTHENTICATION.PersistenceKey);
         setAuthenticated(AUTHENTICATION.UNAUTHENTICATED);
         setTokens(AUTHENTICATION.TOKENS);
+        await persistence.remove(AUTHENTICATION.PersistenceKey);
     }
 
     React.useEffect(() => {
 
         const checkAuthenticated = async () => {
             // await persistence.remove(AUTHENTICATION.PersistenceKey);
-            const tokens = await persistence.retreive(AUTHENTICATION.PersistenceKey);
+            const persistence1 = new Persistence(AsyncStorage);
+            const tokens = await persistence1.retreive(AUTHENTICATION.PersistenceKey);
             if (typeof tokens === "string") {
                 const jsonAuthenticated = JSON.parse(tokens);
                 setAuthenticated(true);

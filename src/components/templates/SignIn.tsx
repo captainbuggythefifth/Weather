@@ -1,28 +1,29 @@
-
 import Container from 'components/atoms/Container';
+import HelloWorld from 'components/molecules/HelloWorld';
+import LoginButton from 'components/molecules/LoginButton';
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import getPlatformTarget from 'utils/screen';
-import Welcome from './Welcome';
 
 const styles = StyleSheet.create({
     center: {
+        padding: 24,
         alignItems: "center",
-        alignSelf: "center",
-        justifyContent: "flex-end",
+        justifyContent: "space-evenly",
         height: getPlatformTarget() === "large" ? "inherit" : "100%"
     }
 });
 
-const Home = () => {
+const SignIn = () => {
     return (
         <Container>
             <View style={styles.center}>
-                <View></View>
-            <Welcome />
+                <HelloWorld />
+                <LoginButton />
             </View>
         </Container>
+
     )
 };
 
-export default Home
+export default SignIn

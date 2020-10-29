@@ -11,6 +11,10 @@ const getGitHubUserDetails = async (username: string) => {
 
 };
 
+const fetcherGitHubUserDetails = (url: string) => getGitHubUserDetails(url).then(res => res.response.data);
+
+
 export {
-    getGitHubUserDetails
+    getGitHubUserDetails,
+    fetcherGitHubUserDetails
 }

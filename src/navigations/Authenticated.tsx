@@ -4,8 +4,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Profile from 'components/templates/Profile';
 import Home from 'components/templates/Home';
-import Weather from 'components/templates/Weather';
 import getPlatformTarget from 'utils/screen';
+import WeatherScreen from 'components/screens/WeatherScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -38,7 +38,7 @@ const Authenticated = () => {
             >
                 <Tab.Screen name="Profile" component={Profile} />
                 <Tab.Screen name="Home" component={Home} />
-                <Tab.Screen name="Weather" component={Weather} />
+                <Tab.Screen name="Weather" component={WeatherScreen} />
             </Tab.Navigator>
         </NavigationContainer>
     )

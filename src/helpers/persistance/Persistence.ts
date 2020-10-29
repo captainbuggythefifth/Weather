@@ -5,6 +5,14 @@ class Persistence {
         this.library = library
     }
 
+    setLibrary(library: any) {
+        this.library = library
+    }
+
+    getLibrary() {
+        return this.library
+    }
+
     async store(key: string, value: string) {
         return this.library.setItem(`@${key}`, value)
     }
